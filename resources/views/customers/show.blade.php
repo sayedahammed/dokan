@@ -2,9 +2,14 @@
 
 @section('content')
     <div class="container">
-        <a href="{{ route('customers.index') }}" class="btn btn-secondary btn-sm mb-2"><i class="fas fa-backward"></i> Back</a>
+        <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm mb-2"><i class="fas fa-backward"></i> Back</a>
         <div class="row justify-content-center">
             <div class="col-md-9">
+                @if($message = session('delete-success'))
+                    <div class="alert alert-success">
+                        {{ $message }}
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-body">
                         <h4><strong>{{ $customer->name }}</strong>'s Orders</h4>
@@ -14,24 +19,50 @@
                                 <thead>
                                 <tr>
                                     <th>Order No</th>
-                                    <th>Status</th>
-                                    <th>Order At</th>
-                                    <th>Delivery At</th>
+                                    <th>Order Date</th>
+                                    <th>Delivery Date</th>
+                                    <th>Order Status</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($customer->orders as $order)
                                 <tr>
-                                    <td><a href="{{ route('orders.show', $order->id) }}">{{ $order->order_no }}</a></td>
+                                    <td>{{ $order->order_no }}</td>
+                                    <td>{{ date("d/m/Y", strtotime($order->created_at)) }}</td>
+                                    <td>
+                                        @if($order->status)
+                                            {{ date("d/m/Y", strtotime($order->updated_at)) }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td>
                                         @if($order->status)
                                             <span class="text-success">Delivered</span> <i class="fas fa-check-circle"></i>
                                         @else
-                                            Pending
+                                            Pending <i class="fas fa-industry"></i>
                                         @endif
                                     </td>
-                                    <td>{{ date("d-M-Y g:i a", strtotime($order->created_at)) }}</td>
-                                    <td>{{ date("d-M-Y g:i a", strtotime($order->updated_at)) }}</td>
+                                    <td class="d-flex">
+                                        @if(!$order->status)
+                                            <form action="{{ route('orders.update', $order->id) }}" method="post">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn mr-2 btn-primary btn-sm">
+                                                    <i class="fas fa-check-circle"></i> Confirm Delivery
+                                                </button>
+                                            </form>
+                                        @endif
+
+                                        <form action="{{ route('orders.destroy', $order->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-sm" onclick="return confirm('Are you want to delete?')">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                                 </tbody>
@@ -49,7 +80,12 @@
                            <input type="hidden" name="customer_id" value="{{ $customer->id }}">
                            <div class="form-group">
                                <label for="order_no">Order No</label>
-                               <input type="text" class="form-control form-control-sm" name="order_no" id="order_no" placeholder="Enter order no">
+                               <input type="number" class="form-control form-control-sm @error('order_no') is-invalid @enderror" name="order_no" id="order_no" placeholder="e.g: 78765">
+                               @error('order_no')
+                               <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                               @enderror
                            </div>
                            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-plus-circle"></i> Add Order</button>
                        </form>

@@ -19,7 +19,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware('auth')->group(function () {
 
-Route::resource('/customers', App\Http\Controllers\CustomerController::class);
-Route::resource('/orders', App\Http\Controllers\OrderController::class);
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::get('/customers/search', [App\Http\Controllers\CustomerController::class, 'search'])->name('customers.search');
+    Route::resource('/customers', App\Http\Controllers\CustomerController::class);
+
+    Route::get('/orders/search', [App\Http\Controllers\OrderController::class, 'search'])->name('orders.search');
+    Route::resource('/orders', App\Http\Controllers\OrderController::class);
+
+    Route::get('/analytics-date-range', [App\Http\Controllers\AnalyticsController::class, 'getDateRange'])->name('analytics.date-range');
+    Route::get('/analytics', [App\Http\Controllers\AnalyticsController::class, 'index'])->name('analytics');
+
+});

@@ -14,7 +14,7 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -25,16 +25,25 @@
 
     <style>
         * {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Nunito', sans-serif;
         }
-        .home_tabs a {
-            display: flex;
-            flex-direction: column;
+        .legend {
+            background: #fff;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid gainsboro;
         }
 
-        .tab_label {
-            font-weight: bold;
-            padding-top: 1px;
+        .legend-label {
+            font-size: 18px;
+        }
+
+        .legend-value {
+            font-size: 30px;
+        }
+        ul.nav.nav-pills {
+            background: lavenderblush;
+            padding: 5px;
         }
     </style>
 </head>
@@ -52,15 +61,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-chart-line"></i> Analytics</a>
+                            <a class="nav-link" href="{{ route('analytics') }}"><i class="fas fa-chart-line"></i> Analytics</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('customers.index') }}"><i class="fas fa-users"></i> Customers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('customers.index') }}"><i class="fas fa-shopping-cart "></i> Orders</a>
+                            <a class="nav-link" href="{{ route('orders.index') }}"><i class="fas fa-shopping-cart"></i> Orders</a>
                         </li>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -122,5 +133,7 @@
             );
         });
     </script>
+
+    @stack('javascript')
 </body>
 </html>

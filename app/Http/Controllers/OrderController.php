@@ -55,6 +55,25 @@ class OrderController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Order  $order
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|View|RedirectResponse
+     */
+    public function search(Request $request)
+    {
+        $orderNo = $request->input('order_no', null);
+
+        $order = Order::where('order_no', $orderNo)->first();
+
+        if (empty($order)) {
+            return \redirect()->back()->with('order-not-found', 'Opps! No order found!');
+        }
+
+        return \view('orders.show', compact('order'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Order  $order
      * @return View
      */
     public function show(Order $order): View
@@ -91,10 +110,12 @@ class OrderController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function destroy(Order $order)
+    public function destroy(Order $order): RedirectResponse
     {
-        //
+        $order->delete();
+
+        return \redirect()->back()->with('delete-success', 'Order deleted successfully.');
     }
 }
