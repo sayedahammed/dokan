@@ -71,6 +71,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('orders.index') }}"><i class="fas fa-shopping-cart"></i> Orders</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('bulk-sms.index') }}"><i class="fas fa-sms"></i> Bulk SMS</a>
+                        </li>
                         @endauth
                     </ul>
 
@@ -126,7 +129,7 @@
         // A $( document ).ready() block.
         $( document ).ready(function() {
             $.noConflict();
-            $('#dataTable').DataTable(
+            $('table').DataTable(
                 {
                     "bSort": false
                 }

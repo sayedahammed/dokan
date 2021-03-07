@@ -25,7 +25,7 @@ class StoreOrder extends FormRequest
     {
         return [
             'customer_id' => 'required|integer',
-            'order_no' => 'required|integer'
+            'order_no' => 'required|integer|unique:orders'
         ];
     }
 }

@@ -16,30 +16,42 @@
                                     <th>Status</th>
                                     <th>Order Date</th>
                                     <th>Delivery Date</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($orders as $order)
                                 <tr>
-                                    <td>
-                                        <a href="{{ route('orders.show', $order->id) }}">
-                                            {{ $order->order_no }}
-                                        </a>
-                                    </td>
+                                    <td>{{ $order->order_no }}</td>
                                     <td>
                                         <a href="{{ route('customers.show', $order->customer->id) }}">
                                             {{ $order->customer->name }}
                                         </a>
                                     </td>
                                     <td>
-                                        @if($order->status)
-                                            <span class="text-success">Delivered</span> <i class="fas fa-check-circle"></i>
+                                        @if(!$order->status)
+                                            <form action="{{ route('orders.update', $order->id) }}" method="post">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn mr-2 btn-primary btn-sm">
+                                                    Confirm Delivery
+                                                </button>
+                                            </form>
                                         @else
-                                            Pending <i class="fas fa-industry"></i>
+                                            <i class="fas fa-check-circle"></i> Delivered
                                         @endif
                                     </td>
                                     <td>{{ date("d/m/Y", strtotime($order->created_at)) }}</td>
                                     <td>{{ date("d/m/Y", strtotime($order->updated_at)) }}</td>
+                                    <td>
+                                        <form action="{{ route('orders.destroy', $order->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button title="Delete Order" class="btn btn-danger btn-sm" onclick="return confirm('Are you want to delete?')">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                                 </tbody>

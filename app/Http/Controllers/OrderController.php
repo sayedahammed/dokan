@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrder;
 use App\Models\Order;
+use App\Repositories\OrderRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,6 +12,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class OrderController extends Controller
 {
+    protected OrderRepository $orderRepository;
+
+    function __construct(OrderRepository $orderRepository)
+    {
+        $this->orderRepository = $orderRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +25,7 @@ class OrderController extends Controller
      */
     public function index(): View
     {
-        $orders = Order::latest()->get();
+        $orders = $this->orderRepository->findAll();
         return view('orders.index', compact('orders'));
     }
 
@@ -42,11 +49,9 @@ class OrderController extends Controller
     {
         $parameters = $request->validated();
 
-        $order = new Order();
-        $order->customer_id = $parameters['customer_id'];
-        $order->order_no = $parameters['order_no'];
-        $order->status = false;
-        $order->save();
+        $parameters['status'] = false;
+
+        $this->orderRepository->save($parameters);
 
         return redirect()->route('customers.show', $parameters['customer_id']);
     }
@@ -61,10 +66,10 @@ class OrderController extends Controller
     {
         $orderNo = $request->input('order_no', null);
 
-        $order = Order::where('order_no', $orderNo)->first();
+        $order = $this->orderRepository->findByOrderNo($orderNo);
 
         if (empty($order)) {
-            return \redirect()->back()->with('order-not-found', 'Opps! No order found!');
+            return \redirect()->route('orders.index')->with('order-not-found', 'Opps! No order found!');
         }
 
         return \view('orders.show', compact('order'));
@@ -73,11 +78,12 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Order  $order
+     * @param int   $id
      * @return View
      */
-    public function show(Order $order): View
+    public function show($id): View
     {
+        $order = $this->orderRepository->findByOrderNo($id);
         return \view('orders.show', compact('order'));
     }
 
@@ -96,14 +102,14 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
+     * @param  int  $id
      * @return RedirectResponse
      */
-    public function update(Request $request, Order $order): RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
-        $order->update(['status' => true]);
+        $this->orderRepository->update(['status' => true], $id);
 
-        return redirect()->route('orders.show', $order->id)->with('success', 'Order updated successfully!');
+        return redirect()->back()->with('success', 'Order updated successfully!');
     }
 
     /**

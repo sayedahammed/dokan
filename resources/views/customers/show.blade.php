@@ -21,12 +21,12 @@
                                     <th>Order No</th>
                                     <th>Order Date</th>
                                     <th>Delivery Date</th>
-                                    <th>Order Status</th>
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($customer->orders as $order)
+                                @foreach($customer->orders()->latest()->get() as $order)
                                 <tr>
                                     <td>{{ $order->order_no }}</td>
                                     <td>{{ date("d/m/Y", strtotime($order->created_at)) }}</td>
@@ -38,23 +38,19 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if($order->status)
-                                            <span class="text-success">Delivered</span> <i class="fas fa-check-circle"></i>
-                                        @else
-                                            Pending <i class="fas fa-industry"></i>
-                                        @endif
-                                    </td>
-                                    <td class="d-flex">
                                         @if(!$order->status)
                                             <form action="{{ route('orders.update', $order->id) }}" method="post">
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="submit" onclick="return confirm('Are you sure?')" class="btn mr-2 btn-primary btn-sm">
-                                                    <i class="fas fa-check-circle"></i> Confirm Delivery
+                                                    Confirm Delivery
                                                 </button>
                                             </form>
+                                        @else
+                                            <i class="fas fa-check-circle"></i> Delivered
                                         @endif
-
+                                    </td>
+                                    <td >
                                         <form action="{{ route('orders.destroy', $order->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')

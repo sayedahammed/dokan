@@ -28,14 +28,16 @@
                                 <tr>
                                     <td>{{ $customer->name }}</td>
                                     <td>{{ $customer->phone }}</td>
-                                    <td><a href="{{ route('customers.show', $customer->id) }}">
-                                            <i class="fas fa-shopping-cart"></i> View Orders ({{ $customer->orders->count() }})
-                                        </a></td>
+                                    <td>
+                                        <a href="{{ route('customers.show', $customer->id) }}">
+                                            <i class="fas fa-eye"></i> {{ $customer->orders->count() }} Orders
+                                        </a>
+                                    </td>
                                     <td>
                                         <form action="{{ route('customers.destroy', $customer->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-danger btn-sm" onclick="return confirm('Are you want to delete?')">
+                                            <button title="Delete Customer" class="btn btn-danger btn-sm" onclick="return confirm('Are you want to delete?')">
                                                 <i class="fas fa-trash"></i> Delete
                                             </button>
                                         </form>
