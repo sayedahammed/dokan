@@ -2,11 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SendBulkSMS;
+use App\Http\Requests\StoreBulkSMS;
+use App\Repositories\BulkSMSRepository;
+use App\Repositories\CustomerRepository;
+use App\Repositories\TestUserRepository;
+use App\Services\SMSService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class BulkSMSController extends Controller
 {
+    private SMSService $SMSService;
+    private TestUserRepository $testUserRepository;
+    private CustomerRepository $customerRepository;
+
+    public function __construct(TestUserRepository $testUserRepository,
+                                  SMSService $SMSService,
+                                  CustomerRepository $customerRepository
+    ) {
+        $this->SMSService = $SMSService;
+        $this->testUserRepository = $testUserRepository;
+        $this->customerRepository = $customerRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,68 +37,35 @@ class BulkSMSController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Send Bulk SMS Method
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function send(SendBulkSMS $request)
     {
-        //
+        $message = $request->get('message');
+
+        switch ($request->get('user_type')) {
+            case 1:
+                $msisdn = $this->testUserRepository->findAllPhones();
+                $this->SMSService->send($msisdn, $message);
+                break;
+            case 2:
+                $msisdn = $this->customerRepository->findAllPhones();
+                $this->SMSService->send($msisdn, $message);
+                break;
+        }
+
+        return redirect()->back()->with('success', 'Campaign sent successfully');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function show($id)
+    public function balance(): JsonResponse
     {
-        //
+        return $this->SMSService->balance();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

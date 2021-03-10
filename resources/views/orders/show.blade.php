@@ -12,26 +12,44 @@
                 @endif
                 <div class="card">
                     <div class="card-body">
-                        <h4><strong>Order No:</strong> {{ $order->order_no }}</h4>
-                        <hr>
-                        <p><strong>Customer Name:</strong> {{ $order->customer->name }}</p>
-                        <p><strong>Status:</strong>
-                            @if($order->status)
-                                <span class="text-success">Delivered</span> <i class="fas fa-check-circle"></i>
-                            @else
-                                Pending <i class="fas fa-industry"></i>
-                            @endif
-                        </p>
-                        <p><strong>Order Date:</strong> {{ date("d-M-Y g:i a", strtotime($order->created_at)) }} </p>
-                        <p><strong>Delivery Date:</strong> {{ date("d-M-Y g:i a", strtotime($order->updated_at)) }} </p>
-
-                        @if(!$order->status)
-                            <form action="{{ route('orders.update', $order->id) }}" method="post">
-                                @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('Are you sure?')">Confirm Delivery</button>
-                            </form>
-                        @endif
+                        <h4>Order No: {{ $order->order_no }}</h4>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Status</th>
+                                    <th>Order Date</th>
+                                    <th>Delivery Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('customers.show', $order->customer->id) }}">
+                                            {{ $order->customer->name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @if(!$order->status)
+                                            <form action="{{ route('orders.update', $order->id) }}" method="post">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn mr-2 btn-success btn-sm">
+                                                    Complete Order
+                                                </button>
+                                            </form>
+                                        @else
+                                            <i class="fas fa-check-circle"></i> Delivered
+                                        @endif
+                                    </td>
+</td>
+                                    <td>{{ date("d-M-Y g:i a", strtotime($order->created_at)) }} </td>
+                                    <td>{{ date("d-M-Y g:i a", strtotime($order->updated_at)) }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

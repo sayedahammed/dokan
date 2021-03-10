@@ -46,7 +46,7 @@ class OrderRepositoryImpl implements OrderRepository
      * @param int $id
      * @return mixed
      */
-    public function findById(int $id)
+    public function findById(int $id): Order
     {
         return Order::findOrFail($id);
     }
@@ -60,5 +60,14 @@ class OrderRepositoryImpl implements OrderRepository
     {
         $order = $this->findById($id);
         return $order->update($data);
+    }
+
+    /**
+     * @param $id
+     */
+    public function delete($id): void
+    {
+        $order = $this->findById($id);
+        $order->delete();
     }
 }

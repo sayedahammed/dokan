@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/analytics-date-range', [App\Http\Controllers\AnalyticsController::class, 'getDateRange'])->name('analytics.date-range');
     Route::get('/analytics', [App\Http\Controllers\AnalyticsController::class, 'index'])->name('analytics');
 
-    Route::resource('bulk-sms', \App\Http\Controllers\BulkSMSController::class);
+    Route::get('bulk-sms', [\App\Http\Controllers\BulkSMSController::class, 'index'])->name('bulk-sms.index');
+    Route::post('bulk-sms', [\App\Http\Controllers\BulkSMSController::class, 'send'])->name('bulk-sms.send');
+    Route::get('bulk-sms/balance', [\App\Http\Controllers\BulkSMSController::class, 'balance'])->name('bulk-sms.send');
 
 });

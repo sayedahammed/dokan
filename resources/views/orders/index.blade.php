@@ -33,8 +33,8 @@
                                             <form action="{{ route('orders.update', $order->id) }}" method="post">
                                                 @csrf
                                                 @method('PUT')
-                                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn mr-2 btn-primary btn-sm">
-                                                    Confirm Delivery
+                                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn mr-2 btn-success btn-sm">
+                                                    Complete Order
                                                 </button>
                                             </form>
                                         @else

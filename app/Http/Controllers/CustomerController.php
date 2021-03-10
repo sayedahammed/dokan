@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCustomer;
 use App\Models\Customer;
+use App\Repositories\CustomerRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    private CustomerRepository $customerRepository;
+
+    public function __construct(CustomerRepository $customerRepository)
+    {
+        $this->customerRepository = $customerRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,18 +24,8 @@ class CustomerController extends Controller
      */
     public function index(): View
     {
-        $customers = Customer::latest()->get();
+        $customers = $this->customerRepository->findAll();
         return view('customers.index', compact('customers'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -39,9 +36,9 @@ class CustomerController extends Controller
      */
     public function search(Request $request)
     {
-        $phone = $request->input('phone', null);
+        $phoneNumber = $request->input('phone', null);
 
-        $customer = Customer::where('phone', $phone)->first();
+        $customer = $this->customerRepository->findByPhoneNumber($phoneNumber);
 
         if (empty($customer)) {
             return \redirect()->back()->with('customer-not-found', 'Opps! No customer found!');
@@ -60,10 +57,7 @@ class CustomerController extends Controller
     {
         $parameters = $request->validated();
 
-        $customer = Customer::updateOrCreate(
-            ['phone' => $parameters['phone']],
-            ['name' => $parameters['name']]
-        );
+        $customer = $this->customerRepository->save($parameters);
 
         return redirect()->route('customers.show', $customer->id);
     }
@@ -71,23 +65,14 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Customer  $customer
+     * @param  int  $id
      * @return View
      */
-    public function show(Customer $customer): View
+    public function show($id): View
     {
-        return \view('customers.show', compact('customer'));
-    }
+        $customer = $this->customerRepository->findById($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Customer $customer)
-    {
-        //
+        return \view('customers.show', compact('customer'));
     }
 
     /**
@@ -104,13 +89,12 @@ class CustomerController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Customer  $customer
+     * @param $id
      * @return RedirectResponse
      */
-    public function destroy(Customer $customer): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
-        $customer->delete();
+        $this->customerRepository->delete($id);
 
         return \redirect()->back()->with('delete-success', 'Customer deleted successfully.');
     }
