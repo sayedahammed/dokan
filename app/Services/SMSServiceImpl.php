@@ -22,11 +22,11 @@ class SMSServiceImpl implements SMSService
      * @param string $campaign
      * @return mixed
      */
-    public function send(array $msisdn, string $message): void
+    public function send(array $msisdn, string $message): string
     {
         $limitMsisdn = array_slice($msisdn, 0, 499);
 
-        $this->SMSGateway->send($limitMsisdn, $message);
+        return $this->SMSGateway->send($limitMsisdn, $message);
     }
 
     /**

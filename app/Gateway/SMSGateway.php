@@ -19,7 +19,7 @@ class SMSGateway
         $this->masking = env('SMS_API_MASKING', '');
 
     }
-    public function send(array $msisdn, string $message): void
+    public function send(array $msisdn, string $message): string
     {
         try {
             $msisdnCommSeparated = implode(',', $msisdn);
@@ -29,6 +29,8 @@ class SMSGateway
             $response = Http::get($url)->body();
 
             Log::info("SMS Gateway: $response");
+
+            return $response;
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());

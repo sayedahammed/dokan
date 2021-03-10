@@ -49,15 +49,15 @@ class BulkSMSController extends Controller
         switch ($request->get('user_type')) {
             case 1:
                 $msisdn = $this->testUserRepository->findAllPhones();
-                $this->SMSService->send($msisdn, $message);
+                $response = $this->SMSService->send($msisdn, $message);
                 break;
             case 2:
                 $msisdn = $this->customerRepository->findAllPhones();
-                $this->SMSService->send($msisdn, $message);
+                $response = $this->SMSService->send($msisdn, $message);
                 break;
         }
 
-        return redirect()->back()->with('success', 'Campaign sent successfully');
+        return redirect()->back()->with('success', $response);
     }
 
     /**
