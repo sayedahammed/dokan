@@ -20,8 +20,8 @@
                                     <label for="user_type">User Type</label>
                                     <select name="user_type" required class="form-control" id="user_type">
                                         <option value="0">Select Type</option>
-                                        <option value="1">Test</option>
-                                        <option value="2">All</option>
+                                        <option value="1">Test User</option>
+                                        <option value="2">Customer</option>
                                     </select>
                                 </div>
                                 <div class="form-group">

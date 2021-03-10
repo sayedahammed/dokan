@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="12b448fa-d9f3-4146-90df-4455bf0678da" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Gateway/SMSGateway.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Repositories/CustomerRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Repositories/CustomerRepositoryImpl.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Repositories/TestUserRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Repositories/TestUserRepositoryImpl.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Services/SMSService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Services/SMSServiceImpl.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BulkSMSController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BulkSMSController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CustomerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CustomerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/OrderRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/OrderRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/OrderRepositoryImpl.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/OrderRepositoryImpl.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_07_134816_create_s_m_s_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/bulk-sms/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/bulk-sms/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/customers/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/customers/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/orders/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/orders/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/orders/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/orders/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-    </list>
+    <list default="true" id="12b448fa-d9f3-4146-90df-4455bf0678da" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -196,6 +174,7 @@
       <workItem from="1615192993384" duration="9000" />
       <workItem from="1615348906159" duration="6687000" />
       <workItem from="1615374851375" duration="8150000" />
+      <workItem from="1615390074913" duration="348000" />
     </task>
     <servers />
   </component>
