@@ -34,6 +34,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('bulk-sms', [\App\Http\Controllers\BulkSMSController::class, 'index'])->name('bulk-sms.index');
     Route::post('bulk-sms', [\App\Http\Controllers\BulkSMSController::class, 'send'])->name('bulk-sms.send');
-    Route::get('bulk-sms/balance', [\App\Http\Controllers\BulkSMSController::class, 'balance'])->name('bulk-sms.send');
+    Route::get('bulk-sms/balance', [\App\Http\Controllers\BulkSMSController::class, 'balance']);
 
 });
