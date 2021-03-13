@@ -16,4 +16,5 @@ interface CustomerRepository
     function findByPhoneNumber(string $orderNo): ?Customer;
     function update(array $data, int $id): bool;
     public function delete($id): void;
+    public function countByDateBetween(string $fromDate, string $toDate);
 }

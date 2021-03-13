@@ -15,4 +15,7 @@ interface OrderRepository
     function findByOrderNo(int $orderNo): ?Order;
     function update(array $data, int $id): bool;
     public function delete($id): void;
+    public function countByDateBetween(string $fromDate, string $toDate);
+    public function countOnProgressByDateBetween(string $fromDate, string $toDate);
+    public function countOnDeliveryByDateBetween(string $fromDate, string $toDate);
 }
