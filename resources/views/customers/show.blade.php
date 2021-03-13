@@ -33,7 +33,6 @@
                                 @foreach($customer->orders()->latest()->get() as $order)
                                 <tr>
                                     <td>{{ $order->order_no }}</td>
-                                    <td>{{ date("d/m/Y", strtotime($order->created_at)) }}</td>
                                     <td>
                                         @if(!$order->status)
                                             <i class="fas fa-industry"></i> On Progress
@@ -41,9 +40,10 @@
                                             <i class="fas fa-check-circle"></i> Delivered
                                         @endif
                                     </td>
+                                    <td>{{ $order->order_date }}</td>
                                     <td>
                                         @if($order->status)
-                                            {{ date("d/m/Y", strtotime($order->updated_at)) }}
+                                            {{ $order->delivery_date }}
                                         @else
                                             -
                                         @endif
