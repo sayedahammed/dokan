@@ -49,13 +49,15 @@
                                         @endif
                                     </td>
                                     <td class="d-flex">
-                                        <form action="{{ route('orders.update', $order->id) }}" method="post">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" onclick="return confirm('Are you sure?')" class="btn mr-1 btn-success btn-sm">
-                                                Complete
-                                            </button>
-                                        </form>
+                                        @if(!$order->status)
+                                            <form action="{{ route('orders.update', $order->id) }}" method="post">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn mr-1 btn-success btn-sm">
+                                                    Complete
+                                                </button>
+                                            </form>
+                                        @endif
 
                                         <a href="" class="btn btn-secondary btn-sm mr-1" data-toggle="modal" data-target="#editOrder"><i class="fas fa-edit"></i> Edit</a>
                                         <!-- Edit Modal -->
