@@ -87,7 +87,9 @@ class OrderController extends Controller
      */
     public function complete(Request $request, $id): RedirectResponse
     {
-        $this->orderRepository->update(['status' => true], $id);
+        $parameters = ['status' => true, 'delivery_date' => date('Y-m-d')];
+
+        $this->orderRepository->update($parameters, $id);
 
         return redirect()->back()->with('success', 'Order updated successfully!');
     }
