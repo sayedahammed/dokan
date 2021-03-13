@@ -50,7 +50,7 @@
                                     </td>
                                     <td class="d-flex">
                                         @if(!$order->status)
-                                            <form action="{{ route('orders.update', $order->id) }}" method="post">
+                                            <form action="{{ route('orders.complete', $order->id) }}" method="post">
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="submit" onclick="return confirm('Are you sure?')" class="btn mr-1 btn-success btn-sm">
