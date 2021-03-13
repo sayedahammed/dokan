@@ -10,7 +10,7 @@
 
                             @if($message = session('success'))
                             <div class="alert alert-success">
-                                {{ $message }}
+                                {{ Illuminate\Support\Str::limit($message, 50) }}
                             </div>
                             @endif
 

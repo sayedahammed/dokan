@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCustomer;
+use App\Http\Requests\UpdateCustomer;
 use App\Models\Customer;
 use App\Repositories\CustomerRepository;
 use Illuminate\Contracts\View\View;
@@ -79,12 +80,16 @@ class CustomerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @param  int  $id
+     * @return RedirectResponse
      */
-    public function update(Request $request, Customer $customer)
+    public function update(UpdateCustomer $request, int $id)
     {
-        //
+        $parameters = $request->validated();
+
+        $this->customerRepository->update($parameters, $id);
+
+        return redirect()->back()->with('success', 'Customer updated successfully');
     }
 
     /**

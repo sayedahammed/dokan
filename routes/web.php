@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers/search', [App\Http\Controllers\CustomerController::class, 'search'])->name('customers.search');
     Route::resource('/customers', App\Http\Controllers\CustomerController::class);
 
+    Route::put('/orders/complete/{order}', [App\Http\Controllers\OrderController::class, 'complete'])->name('orders.complete');
     Route::get('/orders/search', [App\Http\Controllers\OrderController::class, 'search'])->name('orders.search');
     Route::resource('/orders', App\Http\Controllers\OrderController::class);
 

@@ -27,6 +27,7 @@ class OrderRepositoryImpl implements OrderRepository
         $order = new Order();
         $order->customer_id = $parameters['customer_id'];
         $order->order_no = $parameters['order_no'];
+        $order->order_date = $parameters['order_date'];
         $order->status = $parameters['status'];
         $order->save();
 

@@ -12,6 +12,11 @@
                 <div class="card">
                     <div class="card-body">
                         <h4>Customers <a href="{{ route('customers.index') }}" class="btn btn-sm"> <i class="fas fa-sync-alt"></i> </a></h4>
+                        @if($message = session('success'))
+                            <div class="alert alert-success">
+                                {{ $message }}
+                            </div>
+                        @endif
                         <div class="table-responsive">
                             <table id="dataTable" class="table table-sm table-bordered">
                                 <thead>
@@ -19,8 +24,8 @@
                                     <th>Name</th>
                                     <th>Phone</th>
                                     <th>Orders</th>
+                                    <th>Created</th>
                                     <th>Actions</th>
-                                    <th>Date</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -33,7 +38,41 @@
                                             <i class="fas fa-eye"></i> {{ $customer->orders->count() }} Orders
                                         </a>
                                     </td>
-                                    <td>
+                                    <td>{{ $customer->created_at->format('d/m/Y') }}</td>
+                                    <td class="d-flex">
+                                        <a href="" class="btn btn-secondary btn-sm mr-1" data-toggle="modal" data-target="#editOrder"><i class="fas fa-edit"></i> Edit</a>
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade" id="editOrder" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Edit Customer</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form action="{{ route('customers.update', $customer->id) }}" method="post">
+                                                        <div class="modal-body">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <div class="form-group">
+                                                                <label for="name">Name</label>
+                                                                <input type="text" class="form-control" name="name" value="{{ $customer->name }}" id="name" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="phone">Phone</label>
+                                                                <input type="text" class="form-control" name="phone" value="{{ $customer->phone  }}" id="phone" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <form action="{{ route('customers.destroy', $customer->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
@@ -42,7 +81,6 @@
                                             </button>
                                         </form>
                                     </td>
-                                    <td>{{ date("d/m/Y", strtotime($customer->created_at)) }}</td>
                                 </tr>
                                 @endforeach
                                 </tbody>

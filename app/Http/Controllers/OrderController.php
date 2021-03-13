@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrder;
+use App\Http\Requests\UpdateOrder;
 use App\Models\Order;
 use App\Repositories\OrderRepository;
 use Illuminate\Contracts\View\View;
@@ -78,15 +79,31 @@ class OrderController extends Controller
     }
 
     /**
+     * Update order status
+     *
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function complete(Request $request, $id): RedirectResponse
+    {
+        $this->orderRepository->update(['status' => true], $id);
+
+        return redirect()->back()->with('success', 'Order updated successfully!');
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return RedirectResponse
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(UpdateOrder $request, $id): RedirectResponse
     {
-        $this->orderRepository->update(['status' => true], $id);
+        $parameters = $request->validated();
+
+        $this->orderRepository->update($parameters, $id);
 
         return redirect()->back()->with('success', 'Order updated successfully!');
     }
