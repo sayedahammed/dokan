@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Log;
 
 class SMSGateway
 {
-    private $username;
-    private $passoword;
-    private $masking;
+    private string $username;
+    private string $password;
+    private string $masking;
 
     public function __construct()
     {

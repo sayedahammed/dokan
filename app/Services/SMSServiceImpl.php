@@ -19,7 +19,6 @@ class SMSServiceImpl implements SMSService
     /**
      * @param array $msisdn
      * @param string $message
-     * @param string $campaign
      * @return mixed
      */
     public function send(array $msisdn, string $message): string

@@ -6,13 +6,14 @@ namespace App\Repositories;
 
 use App\Models\Customer;
 use App\Models\Order;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
 class CustomerRepositoryImpl implements CustomerRepository
 {
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     function findAll(): Collection
     {
@@ -29,21 +30,19 @@ class CustomerRepositoryImpl implements CustomerRepository
 
     /**
      * @param array $parameters
-     * @return Order
+     * @return Customer
      */
     public function save(array $parameters): Customer
     {
-        $customer = Customer::updateOrCreate(
+        return Customer::updateOrCreate(
             ['phone' => $parameters['phone']],
             ['name' => $parameters['name']]
         );
-
-        return $customer;
     }
 
     /**
-     * @param int $orderNo
-     * @return Order
+     * @param string $phone
+     * @return Customer|null
      */
     public function findByPhoneNumber(string $phone): ?Customer
     {
@@ -72,11 +71,22 @@ class CustomerRepositoryImpl implements CustomerRepository
 
     /**
      * @param $id
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete($id): void
     {
         $customer = $this->findById($id);
         $customer->delete();
+    }
+
+
+    /**
+     * @param string $fromDate
+     * @param string $toDate
+     * @return mixed
+     */
+    public function countByDateBetween(string $fromDate, string $toDate)
+    {
+        return Customer::whereDateBetween('created_at', $fromDate, $toDate)->count();
     }
 }

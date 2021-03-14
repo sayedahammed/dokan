@@ -6,6 +6,8 @@ use App\Http\Requests\StoreCustomer;
 use App\Http\Requests\UpdateCustomer;
 use App\Models\Customer;
 use App\Repositories\CustomerRepository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,8 +34,8 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|View|RedirectResponse
+     * @param Request $request
+     * @return Application|Factory|View|RedirectResponse
      */
     public function search(Request $request)
     {
@@ -51,8 +53,8 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param StoreCustomer $request
+     * @return RedirectResponse
      */
     public function store(StoreCustomer $request): RedirectResponse
     {
@@ -66,10 +68,10 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return View
      */
-    public function show($id): View
+    public function show(int $id): View
     {
         $customer = $this->customerRepository->findById($id);
 
@@ -79,8 +81,8 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param UpdateCustomer $request
+     * @param int $id
      * @return RedirectResponse
      */
     public function update(UpdateCustomer $request, int $id)
@@ -94,10 +96,10 @@ class CustomerController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param $id
+     * @param int $id
      * @return RedirectResponse
      */
-    public function destroy($id): RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
         $this->customerRepository->delete($id);
 
