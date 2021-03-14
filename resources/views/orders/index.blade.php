@@ -59,9 +59,9 @@
                                             </form>
                                         @endif
 
-                                        <a href="" class="btn btn-secondary btn-sm mr-1" data-toggle="modal" data-target="#editOrder"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="" class="btn btn-secondary btn-sm mr-1" data-toggle="modal" data-target="#editOrder{{ $order->id }}"><i class="fas fa-edit"></i> Edit</a>
                                         <!-- Edit Modal -->
-                                        <div class="modal fade" id="editOrder" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="editOrder{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
