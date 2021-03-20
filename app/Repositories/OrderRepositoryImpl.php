@@ -16,7 +16,7 @@ class OrderRepositoryImpl implements OrderRepository
      */
     function findAll(): Collection
     {
-        return Order::latest()->get();
+        return Order::latest('id')->get();
     }
 
     /**
