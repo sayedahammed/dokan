@@ -17,7 +17,7 @@ class CustomerRepositoryImpl implements CustomerRepository
      */
     function findAll(): Collection
     {
-        return Customer::latest()->get();
+        dd(Customer::latest()->get());
     }
 
     /**
