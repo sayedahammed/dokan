@@ -38,9 +38,9 @@
                                             <i class="fas fa-eye"></i> {{ $customer->orders->count() }} Orders
                                         </a>
                                     </td>
-                                    <td>{{ $customer->created_at->format('d/m/Y') }}</td>
+                                    <td>{{ $customer->created_at->format('Y-m-d') }}</td>
                                     <td class="d-flex">
-                                        <a href="" class="btn btn-secondary btn-sm mr-1" data-toggle="modal" data-target="#editOrder{{ $customer->id }}"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="" class="btn btn-secondary btn-sm mr-1" data-toggle="modal" data-target="#editOrder{{ $customer->id }}"><i class="fas fa-edit"></i></a>
                                         <!-- Edit Modal -->
                                         <div class="modal fade" id="editOrder{{ $customer->id }}" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -77,7 +77,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button title="Delete Customer" class="btn btn-danger btn-sm" onclick="return confirm('Are you want to delete?')">
-                                                <i class="fas fa-trash"></i> Delete
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
                                     </td>

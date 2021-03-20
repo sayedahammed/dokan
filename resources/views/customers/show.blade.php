@@ -23,6 +23,7 @@
                                 <thead>
                                 <tr>
                                     <th>Order No</th>
+                                    <th>Book No</th>
                                     <th>Status</th>
                                     <th>Order Date</th>
                                     <th>Delivery Date</th>
@@ -33,6 +34,7 @@
                                 @foreach($customer->orders()->latest()->get() as $order)
                                 <tr>
                                     <td>{{ $order->order_no }}</td>
+                                    <td>{{ $order->book_no }}</td>
                                     <td>
                                         @if(!$order->status)
                                             <i class="fas fa-industry"></i> On Progress
@@ -50,16 +52,38 @@
                                     </td>
                                     <td class="d-flex">
                                         @if(!$order->status)
-                                            <form action="{{ route('orders.complete', $order->id) }}" method="post">
-                                                @csrf
-                                                @method('PUT')
-                                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn mr-1 btn-success btn-sm">
-                                                    Complete
-                                                </button>
-                                            </form>
+                                            <button type="submit"  data-toggle="modal" data-target="#completeOrder{{ $order->id }}" class="btn mr-1 btn-success btn-sm">
+                                                Complete
+                                            </button>
+                                            <div class="modal fade" id="completeOrder{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <form action="{{ route('orders.complete', $order->id) }}" method="post">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Complete Order</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <div class="form-group">
+                                                                    <label for="delivery_date">Delivery Date</label>
+                                                                    <input type="date" required value="{{ date('Y-m-d') }}" name="delivery_date" class="form-control" id="delivery_date">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endif
 
-                                        <a href="" class="btn btn-secondary btn-sm mr-1" data-toggle="modal" data-target="#editOrder{{ $order->id }}"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="" class="btn btn-secondary btn-sm mr-1" data-toggle="modal" data-target="#editOrder{{ $order->id }}"><i class="fas fa-edit"></i></a>
                                         <!-- Edit Modal -->
                                         <div class="modal fade" id="editOrder{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -79,8 +103,16 @@
                                                                 <input type="text" class="form-control" name="order_no" value="{{ $order->order_no }}" id="order_no" required>
                                                             </div>
                                                             <div class="form-group">
+                                                                <label for="book_no">Book No</label>
+                                                                <input type="text" class="form-control" name="book_no" value="{{ $order->book_no }}" id="book_no" required>
+                                                            </div>
+                                                            <div class="form-group">
                                                                 <label for="order_date">Order Date</label>
                                                                 <input type="date" class="form-control" name="order_date" value="{{ $order->order_date  }}" id="order_date" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="delivery_date">Delivery Date</label>
+                                                                <input type="date" class="form-control" name="delivery_date" value="{{ $order->delivery_date }}" id="delivery_date" required>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
@@ -96,7 +128,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-sm" onclick="return confirm('Are you want to delete?')">
-                                                <i class="fas fa-trash"></i> Delete
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
                                     </td>
@@ -119,6 +151,15 @@
                                <label for="order_no">Order No</label>
                                <input type="number" required class="form-control form-control-sm @error('order_no') is-invalid @enderror" name="order_no" id="order_no" placeholder="e.g: 78765">
                                @error('order_no')
+                               <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                               @enderror
+                           </div>
+                           <div class="form-group">
+                               <label for="book_no">Book No</label>
+                               <input type="number" required class="form-control form-control-sm @error('book_no') is-invalid @enderror" name="book_no" id="book_no" placeholder="e.g: 17">
+                               @error('book_no')
                                <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

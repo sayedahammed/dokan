@@ -87,7 +87,14 @@ class OrderController extends Controller
      */
     public function complete(Request $request, $id): RedirectResponse
     {
-        $parameters = ['status' => true, 'delivery_date' => date('Y-m-d')];
+        $request->validate([
+            'delivery_date' => 'required|date'
+        ]);
+
+        $parameters = [
+            'status' => true,
+            'delivery_date' => $request->get('delivery_date')
+        ];
 
         $this->orderRepository->update($parameters, $id);
 

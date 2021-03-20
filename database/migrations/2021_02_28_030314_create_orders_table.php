@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained("customers")->onDelete('cascade');
             $table->string('order_no');
+            $table->string('book_no');
             $table->tinyInteger('status')->default(0);
             $table->date('order_date');
             $table->date('delivery_date')->nullable();

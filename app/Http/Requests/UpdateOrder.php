@@ -25,7 +25,9 @@ class UpdateOrder extends FormRequest
     {
         return [
             'order_no' => 'required|string',
-            'order_date' => 'required|date'
+            'book_no' => 'required|integer',
+            'order_date' => 'required|date',
+            'delivery_date' => 'required|date'
         ];
     }
 }
